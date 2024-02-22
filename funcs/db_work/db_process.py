@@ -57,7 +57,10 @@ def read_db(DB_NAME, TABLE_NAME='Words', COLUMN_NAME='Used', VAL=1):
                 id = row[0]  # assuming 'id' is the first column
                 cursor.execute(f"UPDATE {TABLE_NAME} SET {COLUMN_NAME} = ? WHERE id = ?", (VAL, id))
                 conn.commit()
-            return row
+                return row
+            else:
+                return False
+            
         
     except Exception as e:
         print(f'f"An error occurred when func "read_db" was: {e}')
