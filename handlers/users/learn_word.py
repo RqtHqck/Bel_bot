@@ -1,7 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandStart
 from loader import dp
-from funcs.db_work.db_process import read_db
+from funcs.db_work.db_process import readDbWords
 from data import config
 import logging
 
@@ -19,7 +19,7 @@ async def bot_start(message: types.Message):
 
     # Тут получаем рандомную строку 
     
-    field_tuple = read_db(config.DB_NAME)
+    field_tuple = readDbWords(config.DB_NAME_WORDS)
     if field_tuple:
         logging.info(f'New word update {field_tuple}')
         rus = field_tuple[1]

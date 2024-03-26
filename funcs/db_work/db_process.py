@@ -47,7 +47,7 @@ def fill_bd(DB_NAME, key_val):
 
 
 # Read db
-def read_db(DB_NAME, TABLE_NAME='Words', COLUMN_NAME='Used', VAL=1):
+def readDbWords(DB_NAME, TABLE_NAME='Words', COLUMN_NAME='Used', VAL=1):
     try:
         with sqlite3.connect(DB_NAME) as conn:
             cursor = conn.cursor()
@@ -63,11 +63,36 @@ def read_db(DB_NAME, TABLE_NAME='Words', COLUMN_NAME='Used', VAL=1):
             
         
     except Exception as e:
-        print(f'f"An error occurred when func "read_db" was: {e}')
+        print(f'f"An error occurred when func "readDbWords" was: {e}')
 
     finally:
         conn.close()
 
+
+def readDbAuthors(DB_NAME, TABLE_NAME):
+    try:
+        with sqlite3.connect(DB_NAME) as conn:
+            cursor = conn.cursor()
+
+        # Получаем имена полей
+        # Выполняем запрос SELECT для получения всех данных из таблицы
+        cursor.execute(f"SELECT * FROM {TABLE_NAME}")
+        rows = cursor.fetchall()
+
+        # Создаем словарь, где ключ - первое поле, а значение - список из остальных полей
+        data_dict = {}
+        for row in rows:
+            key = row[0]
+            values = list(row[1:])
+            data_dict[key] = values
+
+        return data_dict
+
+    except Exception as e:
+        print(f'f"An error occurred when func "readDbAuthors" was: {e}')
+
+    finally:
+        conn.close()
 
 
 
