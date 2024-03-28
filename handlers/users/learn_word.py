@@ -31,7 +31,7 @@ async def learn_words(message: types.Message):
     await message.answer(text=f'Добра, вось ваша новае слова:\n {translation[0]} - {translation[1]}', reply_markup=nextWord())
 
 
-@dp.callback_query_handler(text='next')
+@dp.callback_query_handler(text='nextWord')
 async def btn_next(callback: CallbackQuery):
     await callback.answer(cache_time=60)
     translation = takeWord()
@@ -42,7 +42,7 @@ async def btn_next(callback: CallbackQuery):
 
     await callback.message.answer(text=f'Добра, вось ваша новае слова:\n {translation[0]} - {translation[1]}', reply_markup=nextWord())
 
-@dp.callback_query_handler(text='cancel')
+@dp.callback_query_handler(text='cancelWordProcess')
 async def btn_cancel(callback: CallbackQuery):
     await callback.answer(cache_time=60)
     await callback.message.delete()

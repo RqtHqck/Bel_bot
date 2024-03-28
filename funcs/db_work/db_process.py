@@ -69,13 +69,18 @@ def readDbWords(DB_NAME, TABLE_NAME='Words', COLUMN_NAME='Used', VAL=1):
         conn.close()
 
 
-def readDbAuthors(DB_NAME, TABLE_NAME):
+def readDbAuthors(DB_NAME, TABLE_NAME, onePoleReadingMode=0):
     try:
-        with sqlite3.connect(DB_NAME) as conn:
-            cursor = conn.cursor()
+        conn = sqlite3.connect(DB_NAME)
+        cursor = conn.cursor()
 
-        # Получаем имена полей
-        # Выполняем запрос SELECT для получения всех данных из таблицы
+        # Если onePoleReadingMode не равно 0, получаем данные только для этого id
+        if onePoleReadingMode != 0:
+            cursor.execute(f"SELECT * FROM {TABLE_NAME} WHERE id=?", (onePoleReadingMode,))
+            row = cursor.fetchone()
+            return list(row[1:])  # возвращаем все данные из этого поля, кроме id
+
+        # Иначе получаем все данные из таблицы
         cursor.execute(f"SELECT * FROM {TABLE_NAME}")
         rows = cursor.fetchall()
 
@@ -89,7 +94,7 @@ def readDbAuthors(DB_NAME, TABLE_NAME):
         return data_dict
 
     except Exception as e:
-        print(f'f"An error occurred when func "readDbAuthors" was: {e}')
+        print(f'An error occurred when func "readDbAuthors" was: {e}')
 
     finally:
         conn.close()
